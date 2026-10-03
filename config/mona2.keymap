@@ -238,8 +238,8 @@
        レイヤー構成 (番号 = DYA Studio の表示順)
          0 BASE     1 SYM (Space長押し)  2 NUM (Bksp長押し)  3 NAV (-親指長押し)
          Bksp親指 + Space親指の同時押し (コンボ) の間は 11 BLE
-         4〜7 空き
-         8 GESTURE (空き)   9 SCROLL   10 MOUSE   11 BLE
+         4〜8 空き
+         8 L8 (空き)        9 SCROLL   10 MOUSE   11 BLE
        ※ 番号は mona2_r.overlay の scroll の active-layers (レイヤー9) と
           mouse の temp-layer (レイヤー10) が位置で参照している。
           レイヤーを途中に挿入したら両方を合わせて直すこと。
@@ -350,9 +350,9 @@
             sensor-bindings = <&rsr_default>;
         };
 
-        /* ジェスチャー用 (空き)。ジェスチャー本体は I+O のコンボ */
-        gesture_layer {
-            display-name = "GESTURE";
+        /* 空き */
+        spare8_layer {
+            display-name = "L8";
             bindings = <
 &trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
 &trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
