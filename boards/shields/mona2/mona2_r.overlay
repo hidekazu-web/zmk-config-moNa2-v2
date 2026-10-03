@@ -120,9 +120,24 @@
            エンジンには反映されないため、ここで指定する */
         enable-eager-mode;
 
-        placeholder {
-            pattern = <GESTURE_UP GESTURE_RIGHT>;
-            bindings = <&kp ESC>;
+        /* 全部の初期化でジェスチャーが空になったとき、ここが自動で登録される。
+           1方向だけにしておく (「上→右」のような続きがあると、上の実行が
+           idle-timeout ぶん遅れる。Mouse Gesture Studio には2方向以上は表示されない) */
+        mission_control {
+            pattern = <GESTURE_UP>;
+            bindings = <&kp LC(UP_ARROW)>;
+        };
+        ctrl_left {
+            pattern = <GESTURE_RIGHT>;
+            bindings = <&kp LC(LEFT_ARROW)>;
+        };
+        launchpad {
+            pattern = <GESTURE_DOWN>;
+            bindings = <&kp C_AC_DESKTOP_SHOW_ALL_APPLICATIONS>;
+        };
+        ctrl_right {
+            pattern = <GESTURE_LEFT>;
+            bindings = <&kp LC(RIGHT_ARROW)>;
         };
     };
     inertial_scroll: inertial_scroll {
