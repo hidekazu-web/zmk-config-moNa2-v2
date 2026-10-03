@@ -115,6 +115,10 @@
         stroke-size = <200>;
         idle-timeout-ms = <150>;
         gesture-cooldown-ms = <500>;
+        /* はじいた方向が決まった瞬間に実行する (ボールが止まるのを待たない)。
+           Mouse Gesture Studio の Eager mode / Stroke size 等は保存されるだけで
+           エンジンには反映されないため、ここで指定する */
+        enable-eager-mode;
 
         placeholder {
             pattern = <GESTURE_UP GESTURE_RIGHT>;
