@@ -81,11 +81,12 @@
     runtime_combo_defaults {
         compatible = "cormoran,runtime-combo-defaults";
 
-        layer4_ESC {
+        /* 旧 Layer4 ESC (&lt 4 ESC)。レイヤー4 (旧 MOUSE_W) を廃止したので ESC のみ */
+        esc {
             slot = <0>;
-            display-name = "Layer4 ESC";
+            display-name = "ESC";
             key-positions = <38 39>;
-            bindings = <&lt 4 ESC>;
+            bindings = <&kp ESC>;
         };
 
         tab {
@@ -94,10 +95,25 @@
             key-positions = <11 12>;
             bindings = <&kp TAB>;
         };
+
+        /* K + L 同時押しの間だけスクロールレイヤー (9) */
+        scroll {
+            slot = <2>;
+            display-name = "scroll";
+            key-positions = <18 19>;
+            bindings = <&mo 9>;
+        };
+
+        /* I + O 同時押しの間だけマウスジェスチャー (Mouse Gesture Key 0) */
+        gesture {
+            slot = <3>;
+            display-name = "gesture";
+            key-positions = <7 8>;
+            bindings = <&mg_set_0>;
+        };
     };
 
-    /* 静的マクロ。キーマップ上で &BT0 / &screenshot などの名前で直接
-       参照しているため、そのまま残している (DYA Studio 上では編集不可)。
+    /* 静的マクロ (DYA Studio 上では編集不可)。
        DYA Studio から編集したいマクロは Web UI で新規作成し、
        キーに `&rmacro <slot>` を割り当てて使う。 */
     macros {
@@ -108,31 +124,7 @@
             label = "TO_LAYER_0";
         };
 
-        BT0: BT0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings =
-                <&tog_off 0 &tog_off 1>,
-                <&macro_wait_time 200>,
-                <&bt BT_SEL 0>,
-                <&macro_wait_time 500>,
-                <&tog_on 0>;
 
-            label = "BT0";
-        };
-
-        BT1: BT1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings =
-                <&tog_off 0 &tog_off 1>,
-                <&macro_wait_time 200>,
-                <&bt BT_SEL 1>,
-                <&macro_wait_time 500>,
-                <&tog_on 1>;
-
-            label = "BT1";
-        };
 
         screenshot: screenshot {
             compatible = "zmk,behavior-macro";
@@ -197,6 +189,15 @@
             ccw-binding = <&msc SCRL_UP>;
         };
 
+        /* ベースレイヤー用: 時計回り=→ / 反時計回り=← */
+        rsr_base: rsr_base {
+            compatible = "zmk,behavior-runtime-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            tap-ms = <16>;
+            cw-binding = <&kp RIGHT_ARROW>;
+            ccw-binding = <&kp LEFT_ARROW>;
+        };
+
         tog_on: toggle_layer_on_only {
             compatible = "zmk,behavior-toggle-layer";
             #binding-cells = <1>;
@@ -231,143 +232,170 @@
         };
     };
 
+    /* ─────────────────────────────────────────────────────────────
+       レイヤー構成 (番号 = DYA Studio の表示順)
+         0 BASE     1 SYM     2 NUM     3 NAV
+         4〜7 空き
+         8 GESTURE (空き)   9 SCROLL   10 MOUSE   11 BLE
+       ※ 番号は mona2_r.overlay の scroll の active-layers (レイヤー9) と
+          mouse の temp-layer (レイヤー10) が位置で参照している。
+          レイヤーを途中に挿入したら両方を合わせて直すこと。
+       ────────────────────────────────────────────────────────── */
     keymap {
         compatible = "zmk,keymap";
 
-        win_layer {
-            display-name = "WIN";
+        base_layer {
+            display-name = "BASE";
             bindings = <
-&kp Q             &kp W         &kp E         &kp R        &kp T                                      &kp Y          &kp U  &kp I      &kp O    &kp P
-&kp A             &kp S         &kp D         &kp F        &kp G                       &kp MINUS      &kp H          &kp J  &kp K      &kp L    &lt 4 SEMICOLON
-&mt LEFT_SHIFT Z  &kp X         &kp C         &kp V        &kp B        &kp COLON      &kp SEMICOLON  &kp N          &kp M  &kp COMMA  &kp DOT  &lt 10 SLASH
-&kp RCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &lt 2 GRAVE  &lt 4 SPACE  &lt 6 MINUS    &kp ENTER      &kp BACKSPACE                             &kp RIGHT_SHIFT
+&kp Q             &kp W     &kp E    &kp R          &kp T                                                &kp Y      &kp U                &kp I          &kp O    &kp P
+&mt LEFT_CONTROL A  &kp S   &kp D    &kp F          &kp G                                &kp MINUS       &kp H      &kp J                &kp K          &kp L    &mt RIGHT_CONTROL ENTER
+&mt LEFT_SHIFT Z  &kp X     &kp C    &kp V          &kp B                  &kp SEMICOLON &kp BACKSPACE   &kp N      &kp M                &lt 9 COMMA    &kp DOT  &mt RIGHT_SHIFT SLASH
+&kp TAB           &kp LALT  &kp ESC  &kp BACKSPACE  &mt LEFT_GUI LANG2     &lt 9 MINUS   &kp SPACE       &mt RIGHT_GUI LANG1                                     &kp RA(DOT)
             >;
 
-            sensor-bindings = <&rsr_default>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            sensor-bindings = <&rsr_base>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        mac_layer {
-            display-name = "MAC";
+        /* 記号 (中身は後で決める) */
+        sym_layer {
+            display-name = "SYM";
             bindings = <
-&kp Q             &kp W         &kp E         &kp R        &kp T                                      &kp Y          &kp U  &kp I      &kp O    &kp P
-&kp A             &kp S         &kp D         &kp F        &kp G                       &kp MINUS      &kp H          &kp J  &kp K      &kp L    &lt 4 SEMICOLON
-&mt LEFT_SHIFT Z  &kp X         &kp C         &kp V        &kp B        &kp COLON      &kp SEMICOLON  &kp N          &kp M  &kp COMMA  &kp DOT  &lt 11 SLASH
-&kp LEFT_GUI      &kp LEFT_WIN  &kp LEFT_ALT  &lt 3 GRAVE  &lt 5 SPACE  &lt 7 MINUS    &kp ENTER      &kp BACKSPACE                             &kp RIGHT_SHIFT
-            >;
-
-            sensor-bindings = <&rsr_default>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
-        };
-
-        num_win {
-            display-name = "NUM_W";
-            bindings = <
-&kp ESCAPE  &kp EXCLAMATION       &kp AT_SIGN            &kp HASH          &kp DOLLAR                                &kp EQUAL      &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp ASTERISK
-&kp TAB     &kp PERCENT           &kp CARET              &kp AMPERSAND     &kp ASTERISK                 &kp PERCENT  &kp NUMBER_0   &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp MINUS
-&kp PIPE    &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &trans    &kp PLUS     &kp DOT        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp SLASH
-&kp LCTRL   &kp LEFT_GUI          &kp LEFT_ALT           &trans            &trans             &trans    &kp ENTER    &kp BACKSPACE                                            &kp RIGHT_SHIFT
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        num_mac {
-            display-name = "NUM_M";
+        /* 数字 (中身は後で決める) */
+        num_layer {
+            display-name = "NUM";
             bindings = <
-&kp ESCAPE    &kp EXCLAMATION       &kp AT_SIGN            &kp HASH          &kp DOLLAR                                &kp EQUAL      &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp ASTERISK
-&kp TAB       &kp PERCENT           &kp CARET              &kp AMPERSAND     &kp ASTERISK                 &kp PERCENT  &kp NUMBER_0   &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp MINUS
-&kp PIPE      &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &trans    &kp PLUS     &kp DOT        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp SLASH
-&kp LEFT_GUI  &kp LEFT_GUI          &kp LEFT_ALT           &trans            &trans             &trans    &kp ENTER    &kp BACKSPACE                                            &kp RIGHT_SHIFT
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        mouse_win {
-            display-name = "MOUSE_W";
+        /* 移動 (中身は後で決める) */
+        nav_layer {
+            display-name = "NAV";
             bindings = <
-&kp ESCAPE                  &kp LC(Z)       &kp UP_ARROW    &kp LC(Y)        &kp LC(V)                                  &kp CARET         &kp AMPERSAND      &mkp MB3        &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS
-&kp TAB                     &kp LEFT_ARROW  &screenshot     &kp RIGHT_ARROW  &kp ASTERISK               &kp UNDERSCORE  &kp EXCLAMATION   &mkp MB1           &mo 6           &mkp MB2              &henkan
-&mt LEFT_SHIFT KP_NUMBER_0  &kp LC(Y)       &kp DOWN_ARROW  &kp END          &kp HOME      &kp EQUAL    &trans          &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp LEFT_BRACE  &kp RIGHT_BRACE       &kp LC(SPACE)
-&kp LCTRL                   &trans          &trans          &trans           &trans        &trans       &kp ENTER       &kp BACKSPACE                                                              &kp PIPE
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        mouse_mac {
-            display-name = "MOUSE_M";
+        /* 空き */
+        spare4_layer {
+            display-name = "L4";
             bindings = <
-&kp ESCAPE                  &kp LG(Z)       &kp UP_ARROW              &kp LG(LS(Z))    &kp LG(V)                                  &kp CARET         &kp AMPERSAND      &mkp MB3        &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS
-&kp TAB                     &kp LEFT_ARROW  &kp LG(LC(LS(NUMBER_4)))  &kp RIGHT_ARROW  &kp LG(A)                  &kp UNDERSCORE  &kp EXCLAMATION   &mkp MB1           &mo 7           &mkp MB2              &kp LC(SPACE)
-&mt LEFT_SHIFT KP_NUMBER_0  &kp LG(LC(Z))   &kp DOWN_ARROW            &kp LG(RIGHT)    &kp LG(LEFT)  &kp EQUAL    &trans          &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp LEFT_BRACE  &kp RIGHT_BRACE       &kp LC(SPACE)
-&kp LCTRL                   &trans          &trans                    &trans           &trans        &trans       &kp ENTER       &kp BACKSPACE                                                              &kp PIPE
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        scroll_win {
-            display-name = "SCRL_W";
+        /* 空き */
+        spare5_layer {
+            display-name = "L5";
             bindings = <
-&kp ESCAPE      &kp LC(LS(TAB))         &kp UP_ARROW    &kp LC(TAB)              &trans                           &trans  &trans    &mkp MB3  &trans    &trans
-&kp HOME        &kp LEFT_ARROW          &kp DOWN_ARROW  &kp RIGHT_ARROW          &kp END            &out OUT_TOG  &trans  &mkp MB1  &trans    &mkp MB2  &trans
-&kp LEFT_SHIFT  &kp LG(LS(LEFT_ARROW))  &trans          &kp LG(LS(RIGHT_ARROW))  &trans   &trans    &trans        &trans  &mkp MB1  &trans    &mkp MB2  &trans
-&trans          &trans                  &trans          &trans                   &trans   &trans    &trans        &trans                                &trans
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        scroll_mac {
-            display-name = "SCRL_M";
+        /* 空き */
+        spare6_layer {
+            display-name = "L6";
             bindings = <
-&kp ESCAPE      &kp LC(LS(TAB))         &kp UP_ARROW    &kp LC(TAB)              &trans                           &trans  &trans    &mkp MB3  &trans    &trans
-&kp HOME        &kp LEFT_ARROW          &kp DOWN_ARROW  &kp RIGHT_ARROW          &kp END            &out OUT_TOG  &trans  &mkp MB1  &trans    &mkp MB2  &trans
-&kp LEFT_SHIFT  &kp LG(LS(LEFT_ARROW))  &trans          &kp LG(LS(RIGHT_ARROW))  &trans   &trans    &trans        &trans  &trans    &trans    &trans    &trans
-&trans          &trans                  &trans          &trans                   &trans   &trans    &trans        &trans                                &trans
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        function_win {
-            display-name = "FN_W";
+        /* 空き */
+        spare7_layer {
+            display-name = "L7";
             bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans    &trans    &trans
-&trans  &trans  &trans  &trans  &trans            &trans  &trans  &mkp MB1  &mkp MB3  &mkp MB2  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans    &trans    &trans    &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                &trans
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
+
+            sensor-bindings = <&rsr_default>;
         };
 
-        function_mac {
-            display-name = "FN_M";
+        /* ジェスチャー用 (空き)。ジェスチャー本体は I+O のコンボ */
+        gesture_layer {
+            display-name = "GESTURE";
             bindings = <
-&kp A   &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                          &trans
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
+
+            sensor-bindings = <&rsr_default>;
         };
 
-        ble_win {
-            display-name = "BLE_W";
+        /* このレイヤーの間はボールがスクロール (overlay の active-layers) */
+        scroll_layer {
+            display-name = "SCROLL";
             bindings = <
-&kp F1  &kp F2        &kp F3        &kp F4        &kp F5                          &BT0         &BT1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&kp F6  &kp F7        &kp F8        &kp F9        &trans            &out OUT_TOG  &trans       &trans  &trans        &trans        &studio_unlock
-&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans    &bootloader   &trans       &trans  &trans        &trans        &bt BT_CLR
-&trans  &trans        &trans        &trans        &trans  &trans    &trans        &bootloader                                      &bt BT_CLR_ALL
+&trans    &trans    &trans    &trans    &trans                        &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans            &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans                                    &trans
             >;
+
+            sensor-bindings = <&rsr_default>;
         };
 
-        ble_mac {
-            display-name = "BLE_M";
+        /* オートマウス (overlay の temp-layer) */
+        mouse_layer {
+            display-name = "MOUSE";
             bindings = <
-&kp F1  &kp F2        &kp F3        &kp F4        &kp F5                          &BT0         &BT1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&kp F6  &kp F7        &kp F8        &kp F9        &trans            &out OUT_TOG  &trans       &trans  &trans        &trans        &studio_unlock
-&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans    &bootloader   &trans       &trans  &trans        &trans        &bt BT_CLR
-&trans  &trans        &trans        &trans        &trans  &trans    &trans        &bootloader                                      &bt BT_CLR_ALL
+&trans  &trans  &trans  &trans  &trans                      &trans  &trans    &mkp MB3  &mkp MB3  &trans
+&trans  &trans  &trans  &trans  &trans              &trans  &trans  &mkp MB1  &mkp MB1  &mkp MB2  &trans
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &mkp MB4  &trans    &mkp MB5  &trans
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                                &trans
             >;
+
+            sensor-bindings = <&rsr_default>;
+        };
+
+        ble_layer {
+            display-name = "BLE";
+            bindings = <
+&kp F1  &kp F2        &kp F3        &kp F4        &kp F5                          &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+&kp F6  &kp F7        &kp F8        &kp F9        &trans            &out OUT_TOG  &trans        &trans        &trans        &trans        &studio_unlock
+&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans    &bootloader   &trans        &trans        &trans        &trans        &bt BT_CLR
+&trans  &trans        &trans        &trans        &trans  &trans    &trans        &bootloader                                             &bt BT_CLR_ALL
+            >;
+
+            sensor-bindings = <&rsr_default>;
         };
     };
 };

@@ -85,12 +85,22 @@
     x-codes = <INPUT_REL_X>;
     y-codes = <INPUT_REL_Y>;
     xy-to-scroll-enabled;
-    active-layers = <0x000000C0>; /* layer6 + layer7 */
+    /* レイヤー9 (SCROLL)。レイヤー番号は位置で参照するので、
+       mona2.keymap でレイヤーを途中に挿入したら合わせて直すこと */
+    active-layers = <0x00000200>;
     scale-multiplier = <1>;
     scale-divisor = <1>;   /* Studio UI の倍率がそのまま実効値 (1.0x基準)。固定減速は listener 側 zip_scroll_scaler */
 };
 
 &mouse_runtime_input_processor {
+    scale-multiplier = <7>;
+    scale-divisor = <10>;  /* 0.70x */
+    /* オートマウス: ボールを動かすとレイヤー10 (MOUSE) へ。
+       レイヤー番号は位置で参照するので、レイヤーを途中に挿入したら合わせて直すこと */
+    temp-layer-enabled;
+    temp-layer = <10>;
+    temp-layer-activation-delay-ms = <100>;
+    temp-layer-deactivation-delay-ms = <2000>;
 };
 
 /* ─────────────────────────────────────────────────────────────

@@ -28,7 +28,7 @@ manifest:
     # メジャーバージョンが上がっている点に注意。
     - name: zmk
       remote: cormoran
-      revision: main+dya
+      revision: e5c9b6915b56801193e359dd9bad4a167ce0d1b8  # main+dya @ 2026-10-01 (shakupan e34be5e のビルド時点)
       import: app/west.yml
 
     # ── DYA Studio 共通基盤 ─────────────────────────────────────
@@ -36,19 +36,19 @@ manifest:
     # runtime-macro がすべてこの上に乗るため必須。
     - name: zmk-feature-custom-settings
       remote: cormoran
-      revision: main
+      revision: c6a7fef3a3be3d3ace5de9a4b0628c6418cd1f3f  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-module-ble-management
       remote: cormoran
-      revision: main
+      revision: 57738cc4fc6ba80e82a7ac57741a0339cb186cd4  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-module-settings-rpc
       remote: cormoran
-      revision: main
+      revision: 78f86df9e6c5edaf57bef3ccbd7f360cfdf49291  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-module-runtime-input-processor
       remote: cormoran
-      revision: main
+      revision: decf628d7ce5ed95b520c650824c28ea9de649c1  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-behavior-runtime-sensor-rotate
       remote: cormoran
-      revision: main
+      revision: 8b1125ed676c1f5e14145d217984f33d0ebdcef4  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # zmk-module-battery-history は使わないので無効化
     # - name: zmk-module-battery-history
     #   remote: cormoran
@@ -57,40 +57,40 @@ manifest:
     # ── マクロ / コンボのランタイム編集 ─────────────────────────
     - name: zmk-feature-runtime-combo
       remote: cormoran
-      revision: main
+      revision: d9490e7b5d41c516221d131241009e81740efcee  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-feature-runtime-macro
       remote: cormoran
-      revision: main
+      revision: 38530962eb7061b60efcb98e84585cfb1f0cb6de  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
 
     # ── DYA Studio の診断タブ用 ─────────────────────────────────
     # キースイッチ (キー押下統計とチャタリング検出)
     - name: zmk-feature-kscan-diagnostics
       remote: cormoran
-      revision: main
+      revision: 1432f7fe0cfe903cd7d3c9931ae6bd6f2e1f328e  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # キースイッチ診断のライブ表示 (kscan-diagnostics の推奨依存)
     - name: zmk-feature-input-stream
       remote: cormoran
-      revision: main
+      revision: aeb015908a42a7615ccdccc7feb3a10d23132a71  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # スタック使用量など開発者向けツール
     - name: zmk-module-devtool
       remote: cormoran
-      revision: main
+      revision: 9938a2c73c06d6e65ba2c0b68c9aa044a467eafc  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # デバイス情報 (ビルド / ハードウェア / ランタイムの詳細)
     - name: zmk-feature-device-info
       remote: cormoran
-      revision: main
+      revision: 8cedd2dd9f04e19ea5a17b94914dd47a09d8db11  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # 安定性 (フリーズ・クラッシュ・予期しないリセットの記録)
     - name: zmk-feature-watchdog
       remote: cormoran
-      revision: main
+      revision: 84ad14c6c3645dc40b23f45d08ab45418655f912  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # Zephyr settings の閲覧
     - name: zmk-feature-zephyr-setting-expose
       remote: cormoran
-      revision: main
+      revision: 5c89bc71122840ea46032fc241bef8665b99728a  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # Studio RPC の性能計測
     - name: zmk-feature-studio-rpc-perf
       remote: cormoran
-      revision: main
+      revision: b6ccb08cdc46e9e6341b0c42b97f78f05df0939e  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
 
     # ── OS ごとのデフォルトレイヤー ─────────────────────────────
     # NOTE: main ブランチには custom Studio RPC が入っておらず
@@ -98,11 +98,11 @@ manifest:
     #       cormoran/zmk-keyboard-dya2 v2.0 と同じ codex/custom-rpc-rewrite を使う。
     - name: zmk-feature-default-layer
       remote: cormoran
-      revision: codex/custom-rpc-rewrite
+      revision: b25cb5b324da2d9bbc84e1877c775f5b2b7c6845  # codex/custom-rpc-rewrite @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # デフォルトレイヤーを OS 判定で切り替えるために必要
     - name: zmk-feature-os-detection
       remote: cormoran
-      revision: main
+      revision: 3052679f645b8fc1997275c2eaa6b86bdd55ca01  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
 
     # ── 既存モジュール ──────────────────────────────────────────
     # トラックボール (PMW3610)
@@ -113,17 +113,17 @@ manifest:
     # CONFIG_PMW3610_SWAP_XY / _INVERT_X / _INVERT_Y (かつ Studio から実行時変更可) になる。
     - name: zmk-driver-pmw3610-with-custom-studio-rpc
       remote: cormoran
-      revision: main
+      revision: 5c34ea0eec246a1c986111417cd779b53144629a  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-driver-paw3222
       remote: sekigon-gonnoc
-      revision: main
+      revision: df652881be2520bde4f64ab6ca35e4c5708f4f9b  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     # v0.3 ブランチは Zephyr 3.5 向けなので main (最新 ZMK 向け) へ切替
     - name: zmk-rgbled-widget
       remote: caksoylar
-      revision: main
+      revision: e6b467792a1dabef8cfa5c9fd26bfefc9c16662b  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-input-processor-keybind
       remote: zettaface
-      revision: main
+      revision: 64303bd3932bfa7f49261fc6d0c9a3fdd06f8271  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
 
     # ── Mouse Gesture (kot149 + custom RPC) ─────────────────────
     # zmk-module-mouse-gesture-rpc は expose-mg-set-to-studio を main へ
@@ -132,9 +132,9 @@ manifest:
     # 以前あった互換シム (compat/) は不要になり削除した。
     - name: zmk-mouse-gesture
       remote: shakushakupanda
-      revision: suppress-cursor-while-active
+      revision: 10597a47ed60b5f7c07710a0eeff7f7cb9576a1e  # suppress-cursor-while-active @ 2026-10-01 (shakupan e34be5e のビルド時点)
     - name: zmk-module-mouse-gesture-rpc
       remote: shakushakupanda
-      revision: main
+      revision: 1374f1d487d5df07d6d990f1c058d9c7a313f90d  # main @ 2026-10-01 (shakupan e34be5e のビルド時点)
   self:
     path: config
