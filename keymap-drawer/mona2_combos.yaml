@@ -1,0 +1,5 @@
+# コンボ（同時押し）。config/mona2.keymap の runtime_combo_defaults は keymap-drawer が読めないので、ここに同じ内容を書く
+combos:
+  - {p: [11, 12], k: Tab, l: [BASE]}
+  - {p: [18, 19], k: スクロール, l: [BASE]}
+  - {p: [7, 8], k: ジェスチャー, l: [BASE]}

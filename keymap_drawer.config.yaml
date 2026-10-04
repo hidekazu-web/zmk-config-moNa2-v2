@@ -1,0 +1,110 @@
+# keymap-drawer の表示設定（GitHub の Draw ZMK Keymap からも読まれる）
+# Mac の記号とキーの役割で表示する。&lt / &mo はレイヤーの「押さえているキー」表示に使うので書き換えない
+draw_config:
+  shrink_wide_legends: 4
+  separate_combo_diagrams: true
+  svg_extra_style: |
+    svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+
+parse_config:
+  # 見出しに押し方を書いたレイヤー（--layer-names で付けた名前）を、キーの上では短い名前に戻す
+  layer_legend_map:
+    "L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）": L4
+    "BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）": BLE
+  modifier_fn_map:
+    left_ctrl: "⌃"
+    right_ctrl: "⌃"
+    left_shift: "⇧"
+    right_shift: "⇧"
+    left_alt: "⌥"
+    right_alt: "⌥"
+    left_gui: "⌘"
+    right_gui: "⌘"
+    keycode_combiner: "{mods}{key}"
+    mod_combiner: "{mod_1}{mod_2}"
+    special_combinations: {}
+  raw_binding_map:
+    # BASE
+    "&mt LCTRL A": {t: A, h: Ctrl}
+    "&mt RCTRL ENTER": {t: "⏎", h: Ctrl}
+    "&mt LSHFT Z": {t: Z, h: "⇧"}
+    "&mt RSHFT SLASH": {t: /, h: "⇧"}
+    "&mt LGUI LANG2": {t: 英数, h: "⌘"}
+    "&mt RGUI LANG1": {t: かな, h: "⌘"}
+    "&gresc": {t: Esc, s: "`"}
+    "&kp LALT": "⌥"
+    "&kp LCTRL": Ctrl
+    "&kp RA(DOT)": "⌥."
+    "&kp C_VOL_UP": 音量+
+    "&kp C_VOL_DN": 音量−
+    # SYM
+    "&kp C_BRI_UP": 明るさ +
+    "&kp C_BRI_DN": 明るさ −
+    # NUM
+    "&kp CAPS": Caps
+    # NAV
+    "&kp PG_UP": PgUp
+    "&kp PG_DN": PgDn
+    "&kp UP": "↑"
+    "&kp DOWN": "↓"
+    "&kp LEFT": "←"
+    "&kp RIGHT": "→"
+    "&kp LA(LEFT)": {t: 単語←, s: "⌥←"}
+    "&kp LA(RIGHT)": {t: 単語→, s: "⌥→"}
+    "&kp LG(LEFT)": {t: 行頭, s: "⌘←"}
+    "&kp LG(RIGHT)": {t: 行末, s: "⌘→"}
+    "&kp DEL": Del
+    "&kp LC(LS(TAB))": {t: 前の タブ, s: "⌃⇧Tab"}
+    "&kp LC(TAB)": {t: 次の タブ, s: "⌃Tab"}
+    # L4: Rectangle のウィンドウ操作（配置の正本は config/mona2.keymap の L4 のコメント）
+    "&kp LC(LA(N1))": {t: 1/4 ①, s: "⌃⌥1"}
+    "&kp LC(LA(N2))": {t: 1/4 ②, s: "⌃⌥2"}
+    "&kp LC(LA(N3))": {t: 1/4 ③, s: "⌃⌥3"}
+    "&kp LC(LA(N4))": {t: 1/4 ④, s: "⌃⌥4"}
+    "&kp LC(LA(U))": {t: 左上 1/4, s: "⌃⌥U"}
+    "&kp LC(LA(O))": {t: 上1/6 左, s: "⌃⌥O"}
+    "&kp LC(LA(P))": {t: 上1/6 中, s: "⌃⌥P"}
+    "&kp LC(LA(LBKT))": {t: 上1/6 右, s: "⌃⌥["}
+    "&kp LC(LA(I))": {t: 右上 1/4, s: "⌃⌥I"}
+    "&kp LC(LA(W))": {t: 左3/4, s: "⌃⌥W"}
+    "&kp LC(LA(LEFT))": {t: 左半分, s: "⌃⌥←"}
+    "&kp LC(LA(ENTER))": {t: 最大化, s: "⌃⌥⏎"}
+    "&kp LC(LA(RIGHT))": {t: 右半分, s: "⌃⌥→"}
+    "&kp LC(LA(R))": {t: 右3/4, s: "⌃⌥R"}
+    "&kp LC(LA(UP))": {t: 上半分, s: "⌃⌥↑"}
+    "&kp LC(LA(LG(LEFT)))": {t: 前の 画面, s: "⌃⌥⌘←"}
+    "&kp LC(LA(C))": {t: 中央, s: "⌃⌥C"}
+    "&kp LC(LA(LG(RIGHT)))": {t: 次の 画面, s: "⌃⌥⌘→"}
+    "&kp LC(LA(E))": {t: 左2/3, s: "⌃⌥E"}
+    "&kp LC(LA(D))": {t: 1/3 左, s: "⌃⌥D"}
+    "&kp LC(LA(F))": {t: 1/3 中, s: "⌃⌥F"}
+    "&kp LC(LA(G))": {t: 1/3 右, s: "⌃⌥G"}
+    "&kp LC(LA(T))": {t: 右2/3, s: "⌃⌥T"}
+    "&kp LC(LA(DOWN))": {t: 下半分, s: "⌃⌥↓"}
+    "&kp LC(LA(J))": {t: 左下 1/4, s: "⌃⌥J"}
+    "&kp LC(LA(L))": {t: 下1/6 左, s: "⌃⌥L"}
+    "&kp LC(LA(SEMI))": {t: 下1/6 中, s: "⌃⌥;"}
+    "&kp LC(LA(SQT))": {t: 下1/6 右, s: "⌃⌥'"}
+    "&kp LC(LA(K))": {t: 右下 1/4, s: "⌃⌥K"}
+    # MOUSE
+    "&mkp MB1": 左 クリック
+    "&mkp MB2": 右 クリック
+    "&mkp MB3": 中 クリック
+    "&mkp MB4": 戻る
+    "&mkp MB5": 進む
+    # BLE（番号ごとの機器は本人の把握。DYA Studio の「接続」タブで確認できる）
+    "&bt BT_SEL 0": {t: 接続 0, s: Mac}
+    "&bt BT_SEL 1": {t: 接続 1, s: iPad}
+    "&bt BT_SEL 2": 接続 2
+    "&bt BT_SEL 3": 接続 3
+    "&bt BT_SEL 4": 接続 4
+    "&bt BT_DISC 0": 切断 0
+    "&bt BT_DISC 1": 切断 1
+    "&bt BT_DISC 2": 切断 2
+    "&bt BT_DISC 3": 切断 3
+    "&bt BT_DISC 4": 切断 4
+    "&bt BT_CLR": {t: 登録消去, s: この番号}
+    "&bt BT_CLR_ALL": {t: 登録消去, s: 全部}
+    "&out OUT_TOG": {t: 送り先, s: USB/BT}
+    "&studio_unlock": Studio 解除
+    "&bootloader": 書込み モード
