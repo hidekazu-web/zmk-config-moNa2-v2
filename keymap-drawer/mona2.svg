@@ -125,6 +125,8 @@ path.combo {
 /* End Tabler Icons Cleanup */
 
 svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+rect.combo.knob { rx: 26px; ry: 26px; fill: #fff4d6; stroke: #d9b45c; }
+text.combo.knob { font-size: 12px; }
 </style>
 <g transform="translate(30, 0)" class="layer-BASE">
 <text x="0" y="28" class="label" id="BASE">BASE:</text>
@@ -310,6 +312,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="0" class="key tap">⌥.</text>
 </g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em">つまみ</tspan><tspan x="308" dy="1.2em">← →</tspan>
+</text>
+</g>
 </g>
 </g>
 <g transform="translate(30, 280)" class="layer-SYM">
@@ -486,6 +494,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
 </g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em" style="font-size: 80%">つまみ</tspan><tspan x="308" dy="1.2em" style="font-size: 80%">スクロール</tspan>
+</text>
+</g>
 </g>
 </g>
 <g transform="translate(30, 560)" class="layer-NUM">
@@ -657,6 +671,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <g transform="translate(700, 196)" class="key trans keypos-41">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
+</g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em" style="font-size: 80%">つまみ</tspan><tspan x="308" dy="1.2em" style="font-size: 80%">スクロール</tspan>
+</text>
 </g>
 </g>
 </g>
@@ -839,6 +859,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <g transform="translate(700, 196)" class="key trans keypos-41">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
+</g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em" style="font-size: 80%">つまみ</tspan><tspan x="308" dy="1.2em" style="font-size: 80%">スクロール</tspan>
+</text>
 </g>
 </g>
 </g>
@@ -1078,6 +1104,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
 </g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em" style="font-size: 80%">つまみ</tspan><tspan x="308" dy="1.2em" style="font-size: 80%">スクロール</tspan>
+</text>
+</g>
 </g>
 </g>
 <g transform="translate(30, 1400)" class="layer-MOUSE">
@@ -1260,6 +1292,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <g transform="translate(700, 196)" class="key trans keypos-41">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
+</g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em" style="font-size: 80%">つまみ</tspan><tspan x="308" dy="1.2em" style="font-size: 80%">スクロール</tspan>
+</text>
 </g>
 </g>
 </g>
@@ -1462,6 +1500,12 @@ svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hirag
 <g transform="translate(700, 196)" class="key trans keypos-41">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
+</g>
+<g class="combo knob combopos-0">
+<rect rx="6" ry="6" x="282" y="30" width="52" height="52" class="combo knob"/>
+<text x="308" y="56" class="combo knob tap">
+<tspan x="308" dy="-0.6em" style="font-size: 80%">つまみ</tspan><tspan x="308" dy="1.2em" style="font-size: 80%">スクロール</tspan>
+</text>
 </g>
 </g>
 </g>

@@ -3,3 +3,8 @@ combos:
   - {p: [11, 12], k: Tab, l: [BASE]}
   - {p: [18, 19], k: スクロール, l: [BASE]}
   - {p: [7, 8], k: ジェスチャー, l: [BASE]}
+
+  # つまみ（左手の T・G の右）。keymap-drawer はつまみを描けないので、T・G の右に丸い枠として描く
+  # 割り当ては本体（DYA Studio で変えた分が優先）に合わせる。変えたらここも直す
+  - &knob {p: [4, 14], k: "つまみ ←  →", l: [BASE], a: right, o: 0.48, d: false, type: knob, w: 52, h: 52, draw_separate: false}
+  - {<<: *knob, k: つまみ スクロール, l: [SYM, NUM, NAV, "L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）", MOUSE, "BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）"]}

@@ -5,6 +5,8 @@ draw_config:
   separate_combo_diagrams: true
   svg_extra_style: |
     svg.keymap { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    rect.combo.knob { rx: 26px; ry: 26px; fill: #fff4d6; stroke: #d9b45c; }
+    text.combo.knob { font-size: 12px; }
 
 parse_config:
   # 見出しに押し方を書いたレイヤー（--layer-names で付けた名前）を、キーの上では短い名前に戻す
