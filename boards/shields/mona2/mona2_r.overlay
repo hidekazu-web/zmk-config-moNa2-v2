@@ -100,7 +100,9 @@
     temp-layer-enabled;
     temp-layer = <10>;
     temp-layer-activation-delay-ms = <100>;
-    temp-layer-deactivation-delay-ms = <2000>;
+    /* 解除までの時間。MOUSE で透過のキーを押すとその場で解除されるので長めでよい。
+       DYA Studio の画面は 2000ms までだが、本体には studio_rpc.py trackball-set で 10000 を保存済み */
+    temp-layer-deactivation-delay-ms = <10000>;
 };
 
 /* ─────────────────────────────────────────────────────────────
