@@ -88,6 +88,9 @@ parse_config:
     "&kp LC(LA(SEMI))": {t: 下1/6 中, s: "⌃⌥;"}
     "&kp LC(LA(SQT))": {t: 下1/6 右, s: "⌃⌥'"}
     "&kp LC(LA(K))": {t: 右下 1/4, s: "⌃⌥K"}
+    # L4 のつまみ（一段ずつのズーム）。moNa Overlay のつまみの表記にも使う
+    "&kp LG(MINUS)": "⌘−"
+    "&kp LG(PLUS)": "⌘+"
     # MOUSE
     "&mkp MB1": 左 クリック
     "&mkp MB2": 右 クリック

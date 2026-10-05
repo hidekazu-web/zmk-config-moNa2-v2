@@ -37,9 +37,9 @@ layers:
   - {t: Esc, s: '`'}
   - ⌥
   - Ctrl
-  - {t: BSPC, h: NUM}
+  - {t: BSPC, h: NAV}
   - {t: 英数, h: ⌘}
-  - {t: '-', h: NAV}
+  - {t: '-', h: NUM}
   - {t: SPACE, h: SYM}
   - {t: かな, h: ⌘}
   - ⌥.
@@ -123,10 +123,10 @@ layers:
   - {t: ▽, type: trans}
   - '0'
   - .
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - L4
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   NAV:
@@ -166,10 +166,10 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
-  - L4
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）:

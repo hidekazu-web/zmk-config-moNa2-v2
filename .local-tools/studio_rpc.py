@@ -6,6 +6,7 @@
   studio_rpc.py keymap [layer...]    キーマップを表示（レイヤーID指定で絞り込み）
   studio_rpc.py check plan.json      plan と本体の差分を表示するだけ（書き込まない）
   studio_rpc.py apply plan.json      plan の差分だけ書き込み → 読み直して照合 → 保存
+  studio_rpc.py discard              保存していないキー配置の変更を取り消す（apply の照合に失敗したとき）
   plan.json は make_plan.py が config/mona2.keymap から作る（BASE の親指と SYM/NUM/NAV）か、手で書く
     plan.json: [{"layer": 1, "pos": 0, "behavior": "Key Press", "p1": 123, "p2": 0}, ...]
     p1 の Key Press は (修飾 << 24) | (0x07 << 16) | HID usage。修飾は LC=1 LS=2 LA=4 LG=8 RC=0x10 RS=0x20 RA=0x40 RG=0x80
@@ -20,6 +21,11 @@
   トラックボール (zmk-module-runtime-input-processor)
   studio_rpc.py trackball                               入力処理 (id=0 mouse / id=1 scroll) の設定一覧
   studio_rpc.py trackball-set <id> <設定名> <値>         書き込み（即保存）→ 読み直して照合。設定名は RIP_SET
+
+  つまみ (zmk-behavior-runtime-sensor-rotate)
+  studio_rpc.py encoder                                 レイヤーごとの割り当て（cw=左回し / ccw=右回し）
+  studio_rpc.py encoder-set <layer_id> <cw|ccw> "<behavior名>" [p1] [p2] [tap_ms]   書き込み（即保存）→ 読み直して照合
+    tap_ms の既定は 16（config/mona2.keymap の rsr_* と同じ）。DYA Studio の時計回り＝cw（実機の左回し）
 
   マウスジェスチャー
   studio_rpc.py gestures / gesture-delete <id>
@@ -248,6 +254,12 @@ def save(p):
     return dec(r[4][0])
 
 
+def discard(p):
+    """保存していない変更を捨てる（zmk-studio-messages keymap.proto の discard_changes = 5）"""
+    r = p.call(5, f_varint(5, 1))
+    return bool(r.get(5, [0])[0])
+
+
 MG_DIR = {0: "UP", 1: "RIGHT", 2: "DOWN", 3: "LEFT"}
 
 
@@ -378,6 +390,45 @@ def rip_list(p, idx, limit=16):
     return procs
 
 
+# ---- つまみ (zmk-behavior-runtime-sensor-rotate@8b1125e / proto/cormoran/rsr/custom.proto) ----
+# moNa2 のつまみは sensor 0 (boards/shields/mona2/mona2.dtsi の encoder_left)。layer はレイヤー ID
+ENCODER_SIDES = {"cw": 1, "ccw": 2}  # Request の oneof。応答は +1 (2/3)
+
+
+def rsr_call(p, idx, req_field, req_body=b"", timeout=3.0):
+    """rsr.Request の oneof (req_field) を送り、rsr.Response を返す。エラー応答は例外にする"""
+    call = f_varint(1, idx) + f_bytes(2, f_bytes(req_field, req_body))
+    r = p.call(100, f_bytes(2, call), timeout=timeout)
+    resp = dec(dec(r[2][0]).get(2, [b""])[0])
+    if 1 in resp:
+        raise SystemExit(f"encoder error: {dec(resp[1][0]).get(1, [b''])[0].decode()}")
+    return resp
+
+
+def rsr_binding(b):
+    d = dec(b)
+    return tuple(d.get(f, [0])[0] for f in (1, 2, 3, 4))  # (bid, p1, p2, tap_ms)
+
+
+def rsr_list(p, idx, sensor=0):
+    """{layer_id: ((bid, p1, p2, tap_ms) の cw, 同 ccw)}。未設定の側はファームの既定で埋まって返る"""
+    resp = rsr_call(p, idx, 3, f_varint(1, sensor))
+    out = {}
+    for lb in dec(resp.get(4, [b""])[0]).get(1, []):
+        l = dec(lb)
+        out[l.get(1, [0])[0]] = (rsr_binding(l.get(2, [b""])[0]), rsr_binding(l.get(3, [b""])[0]))
+    return out
+
+
+def rsr_set(p, idx, layer_id, side, bid, p1, p2, tap_ms, sensor=0):
+    """書き込むとその場でフラッシュに保存される（別の保存要求は無い）"""
+    field = ENCODER_SIDES[side]
+    binding = f_varint(1, bid) + f_varint(2, p1) + f_varint(3, p2) + f_varint(4, tap_ms)
+    resp = rsr_call(p, idx, field, f_varint(1, sensor) + f_varint(2, layer_id) + f_bytes(3, binding), timeout=15.0)
+    if dec(resp.get(field + 1, [b""])[0]).get(1, [0])[0] != 1:
+        raise SystemExit(f"encoder-set failed: layer={layer_id} {side}")
+
+
 def combo_save(p, idx):
     resp = combo_call(p, idx, 9, timeout=15.0)  # フラッシュへの書き込みを待つ
     return dec(resp.get(4, [b""])[0]).get(2, [b""])[0].decode()
@@ -443,6 +494,26 @@ def main():
                     if k not in ("id", "name"):
                         print(f"   {k} = {v}")
             return
+        if cmd in ("encoder", "encoder-set"):
+            idx = subsystem_index(p, "cormoran_rsr")
+            layer_names = {l["id"]: l["name"] for l in keymap(p)}
+            if cmd == "encoder-set":
+                layer_id, side = int(sys.argv[2]), sys.argv[3]
+                if layer_id not in layer_names or side not in ENCODER_SIDES:
+                    raise SystemExit(f"layer_id は {sorted(layer_names)}、向きは cw か ccw")
+                if sys.argv[4] not in by_name:
+                    raise SystemExit(f"未知の behavior: {sys.argv[4]}")
+                want = (by_name[sys.argv[4]],) + tuple(int(x, 0) for x in sys.argv[5:8]) + (0, 0, 16)[len(sys.argv[5:8]):]
+                rsr_set(p, idx, layer_id, side, *want)
+                got = rsr_list(p, idx)[layer_id][0 if side == "cw" else 1]
+                if got != want:
+                    raise SystemExit(f"verify failed (保存済み): got={got} want={want}")
+                print(f"set layer={layer_id} {side}")
+            for lid, (cw, ccw) in sorted(rsr_list(p, idx).items()):
+                def show(b):
+                    return f"{names.get(b[0], b[0])} 0x{b[1]:08X} 0x{b[2]:08X} tap={b[3]}"
+                print(f"layer id={lid:2d} {layer_names.get(lid, '?'):6s} cw(左回し)={show(cw)}  ccw(右回し)={show(ccw)}")
+            return
         if cmd in ("combos", "combo-set", "combo-delete", "combo-reset", "combo-save"):
             idx = subsystem_index(p, "cormoran__runtime_combo")
             if cmd == "combo-set":
@@ -485,6 +556,8 @@ def main():
                 print(f"== layer id={l['id']} {l['name']}")
                 for i, (bid, p1, p2) in enumerate(l["bindings"]):
                     print(f"  {i:2d} {names.get(bid, bid)} 0x{p1:08X} 0x{p2:08X}")
+        elif cmd == "discard":
+            print("discard:", discard(p))
         elif cmd == "check":
             plan = json.load(open(sys.argv[2]))
             current = {l["id"]: l["bindings"] for l in keymap(p)}
@@ -508,7 +581,7 @@ def main():
             after = {l["id"]: l["bindings"] for l in keymap(p)}
             bad = [e for e in plan if after[e["layer"]][e["pos"]] != (by_name[e["behavior"]], e.get("p1", 0), e.get("p2", 0))]
             if bad:
-                raise SystemExit(f"verify failed (未保存のまま): {bad[:5]}")
+                raise SystemExit(f"verify failed (未保存のまま。studio_rpc.py discard で取り消せる): {bad[:5]}")
             print(f"changed={changed} verified={len(plan)}")
             if changed:
                 print("save:", save(p))

@@ -195,6 +195,26 @@
             ccw-binding = <&kp RIGHT_ARROW>;
         };
 
+        /* NAV 用のなめらかなズーム。右に回すと F19、左に回すと F18 を送り、
+           moNa Overlay (~/Projects/mona-overlay) がピンチのズーム (F19=拡大・F18=縮小) に変える。
+           アプリを終了している間は何も起きない */
+        rsr_nav: rsr_nav {
+            compatible = "zmk,behavior-runtime-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            tap-ms = <16>;
+            cw-binding = <&kp F18>;
+            ccw-binding = <&kp F19>;
+        };
+
+        /* L4 用の一段ずつのズーム。右に回すと ⌘+ (⌘⇧=)、左に回すと ⌘− */
+        rsr_l4: rsr_l4 {
+            compatible = "zmk,behavior-runtime-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            tap-ms = <16>;
+            cw-binding = <&kp LG(MINUS)>;
+            ccw-binding = <&kp LG(PLUS)>;
+        };
+
 
         tog_on: toggle_layer_on_only {
             compatible = "zmk,behavior-toggle-layer";
@@ -232,9 +252,9 @@
 
     /* ─────────────────────────────────────────────────────────────
        レイヤー構成 (番号 = DYA Studio の表示順)
-         0 BASE     1 SYM (Space長押し)  2 NUM (Bksp長押し)  3 NAV (-親指長押し)
+         0 BASE     1 SYM (Space長押し)  2 NUM (-親指長押し)  3 NAV (Bksp長押し)
          Space を押したまま左親指の内側 (SYM の 38 番) を押している間は 11 BLE
-         左親指の内側を押したまま Space (NAV の 39 番) を押している間は 4 L4 (ウィンドウ)
+         左親指の内側を押したまま Space (NUM の 39 番) を押している間は 4 L4 (ウィンドウ)
          4 L4 = Rectangle のショートカット (⌃⌥ / ⌃⌥⌘) を送るウィンドウ操作。5〜8 空き
          8 L8 (空き)        9 SCROLL   10 MOUSE   11 BLE
        ※ 番号は mona2_r.overlay の scroll の active-layers (レイヤー9) と
@@ -250,7 +270,7 @@
 &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I  &kp O  &kp P
 &mt LCTRL A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_UP  &kp H  &kp J  &kp K  &kp L  &mt RCTRL ENTER
 &mt LSHFT Z  &kp X  &kp C  &kp V  &kp B  &kp SEMI  &kp C_VOL_DN  &kp N  &kp M  &kp COMMA  &kp DOT  &mt RSHFT SLASH
-&gresc  &kp LALT  &kp LCTRL  &lt 2 BSPC  &mt LGUI LANG2  &lt 3 MINUS  &lt 1 SPACE  &mt RGUI LANG1  &kp RA(DOT)
+&gresc  &kp LALT  &kp LCTRL  &lt 3 BSPC  &mt LGUI LANG2  &lt 2 MINUS  &lt 1 SPACE  &mt RGUI LANG1  &kp RA(DOT)
             >;
 
             sensor-bindings = <&rsr_base>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
@@ -269,37 +289,38 @@
             sensor-bindings = <&rsr_default>;
         };
 
-        /* 数字。左親指の外側 (Bksp) の長押し。左手がテンキー (最下段に 0 と .、Z の位置は Caps Lock)、右手が F1〜F15 */
+        /* 数字。左親指の内側 (-) の長押し。左手がテンキー (最下段に 0 と .、Z の位置は Caps Lock)、右手が F1〜F15
+           Space の位置 (39 番) は L4 へ (左親指の内側を押したまま Space) */
         num_layer {
             display-name = "NUM";
             bindings = <
 &kp MINUS  &kp N7  &kp N8  &kp N9  &kp PLUS  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15
 &kp SLASH  &kp N4  &kp N5  &kp N6  &kp STAR  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
 &kp CAPS  &kp N1  &kp N2  &kp N3  &kp EQUAL  &kp SLASH  &trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5
-&trans  &kp N0  &kp DOT  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp N0  &kp DOT  &trans  &trans  &trans  &mo 4  &trans  &trans
             >;
 
             sensor-bindings = <&rsr_default>;
         };
 
-        /* 移動。左親指の内側 (-) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (左手は空き) */
+        /* 移動。左親指の外側 (Bksp) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (左手は空き)。つまみはなめらかなズーム */
         nav_layer {
             display-name = "NAV";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &kp PG_UP  &kp LA(LEFT)  &kp UP  &kp LA(RIGHT)  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &kp LG(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(RIGHT)
 &trans  &trans  &trans  &trans  &trans  &trans  &kp DEL  &kp PG_DN  &kp LC(LS(TAB))  &kp LC(TAB)  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &mo 4  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&rsr_default>;
+            sensor-bindings = <&rsr_nav>;
         };
 
         /* ウィンドウ操作 (Rectangle の既存ショートカットを送る)。左手は幅、右手は上下の位置と画面移動
              上段 Q〜R: 1/4 の①〜④      Y/P: 左上・右上 1/4   U/I/O: 上段 1/6 の左・中・右
              中段 A/G: 左・右 3/4  S/F: 左・右半分  D: 最大化   H/⏎位置: 前・次の画面  K: 中央
              下段 Z/B: 左・右 2/3  X/C/V: 1/3 の左・中・右     N//: 左下・右下 1/4   M/,/.: 下段 1/6
-             右手内側の上下 2 キー (15/27): 上半分・下半分 */
+             右手内側の上下 2 キー (15/27): 上半分・下半分。つまみは一段ずつのズーム (⌘− / ⌘+) */
         spare4_layer {
             display-name = "L4";
             bindings = <
@@ -309,7 +330,7 @@
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&rsr_default>;
+            sensor-bindings = <&rsr_l4>;
         };
 
         /* 空き */
