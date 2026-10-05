@@ -7,7 +7,7 @@ combos:
   # つまみ（左手の T・G の右）。keymap-drawer はつまみを描けないので、T・G の右に丸い枠として描く
   # 割り当ては本体（DYA Studio で変えた分が優先）に合わせる。変えたらここも直す
   - &knob {p: [4, 14], k: "つまみ ←  →", l: [BASE], a: right, o: 0.48, d: false, type: knob, w: 52, h: 52, draw_separate: false}
-  - {<<: *knob, k: つまみ スクロール, l: [SYM, NUM, MOUSE, "BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）"]}
+  - {<<: *knob, k: つまみ スクロール, l: [SYM, NUM, "L5（左親指の「BSPC」を押したまま、右親指の「SPACE」を押す）", MOUSE, "BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）"]}
   # NAV は F18／F19 を送り、moNa Overlay がなめらかなズームに変える。L4 は ⌘−／⌘+
   - {<<: *knob, k: つまみ ズーム, l: [NAV]}
   - {<<: *knob, k: "つまみ ⌘−  ⌘+", l: ["L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）"]}

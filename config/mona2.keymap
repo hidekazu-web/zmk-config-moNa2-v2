@@ -255,7 +255,9 @@
          0 BASE     1 SYM (Space長押し)  2 NUM (-親指長押し)  3 NAV (Bksp長押し)
          Space を押したまま左親指の内側 (SYM の 38 番) を押している間は 11 BLE
          左親指の内側を押したまま Space (NUM の 39 番) を押している間は 4 L4 (ウィンドウ)
-         4 L4 = Rectangle のショートカット (⌃⌥ / ⌃⌥⌘) を送るウィンドウ操作。5〜8 空き
+         左親指の外側を押したまま Space (NAV の 39 番) を押している間は 5 L5 (デスクトップ・スクショ)
+         4 L4 = Rectangle のショートカット (⌃⌥ / ⌃⌥⌘) を送るウィンドウ操作
+         5 L5 = デスクトップ 1〜9 (⌃1〜⌃9) と CleanShot X のスクショ。6〜8 空き
          8 L8 (空き)        9 SCROLL   10 MOUSE   11 BLE
        ※ 番号は mona2_r.overlay の scroll の active-layers (レイヤー9) と
           mouse の temp-layer (レイヤー10) が位置で参照している。
@@ -303,14 +305,15 @@
             sensor-bindings = <&rsr_default>;
         };
 
-        /* 移動。左親指の外側 (Bksp) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (左手は空き)。つまみはなめらかなズーム */
+        /* 移動。左親指の外側 (Bksp) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (左手は空き)。つまみはなめらかなズーム
+           Space の位置 (39 番) は L5 へ (左親指の外側を押したまま Space) */
         nav_layer {
             display-name = "NAV";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &kp PG_UP  &kp LA(LEFT)  &kp UP  &kp LA(RIGHT)  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &kp LG(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(RIGHT)
 &trans  &trans  &trans  &trans  &trans  &trans  &kp DEL  &kp PG_DN  &kp LC(LS(TAB))  &kp LC(TAB)  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &mo 5  &trans  &trans
             >;
 
             sensor-bindings = <&rsr_nav>;
@@ -333,12 +336,14 @@
             sensor-bindings = <&rsr_l4>;
         };
 
-        /* 空き */
+        /* デスクトップとスクショ。左親指の外側 (Bksp) を押したまま Space を押している間 (NAV の Space の位置が L5)
+             上段 Q〜O: デスクトップ 1〜9 (⌃1〜⌃9。Mac の「デスクトップ n へ切り替え」。デスクトップがその数あるときだけ効く)
+             中段 A〜F: A=⇧⌘4 範囲→コピー  S=⌃⌘4 範囲→保存  D=⌥⌘4 文字認識  F=⇧⌘5 録画 (CleanShot X) */
         spare5_layer {
             display-name = "L5";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&kp LC(N1)  &kp LC(N2)  &kp LC(N3)  &kp LC(N4)  &kp LC(N5)  &kp LC(N6)  &kp LC(N7)  &kp LC(N8)  &kp LC(N9)  &trans
+&kp LS(LG(N4))  &kp LC(LG(N4))  &kp LA(LG(N4))  &kp LS(LG(N5))  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;

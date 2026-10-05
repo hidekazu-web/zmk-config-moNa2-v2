@@ -20,10 +20,10 @@ jobs:
       keymap_patterns: "config/*.keymap"
       json_path: "config"
       config_path: "keymap_drawer.config.yaml" # config file, ignored if not exists
-      # keymap-drawer/draw.sh と同じ引数にしておく。L4 と BLE は見出しに押し方を書くため名前を付け替える
-      # 空きレイヤー (L5〜L8・SCROLL) は描かない。コンボは keymap から読めないので別ファイルで足す
-      parse_args: "mona2:'--layer-names BASE SYM NUM NAV L4（左親指の「-」を押したまま、右親指の「SPACE」を押す） L5 L6 L7 L8 SCROLL MOUSE BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）'"
-      draw_args: "mona2:'-s BASE SYM NUM NAV L4（左親指の「-」を押したまま、右親指の「SPACE」を押す） MOUSE BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）'"
+      # keymap-drawer/draw.sh と同じ引数にしておく。L4・L5・BLE は見出しに押し方を書くため名前を付け替える
+      # 空きレイヤー (L6〜L8・SCROLL) は描かない。コンボは keymap から読めないので別ファイルで足す
+      parse_args: "mona2:'--layer-names BASE SYM NUM NAV L4（左親指の「-」を押したまま、右親指の「SPACE」を押す） L5（左親指の「BSPC」を押したまま、右親指の「SPACE」を押す） L6 L7 L8 SCROLL MOUSE BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）'"
+      draw_args: "mona2:'-s BASE SYM NUM NAV L4（左親指の「-」を押したまま、右親指の「SPACE」を押す） L5（左親指の「BSPC」を押したまま、右親指の「SPACE」を押す） MOUSE BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）'"
       extra_keymap_yaml: "mona2:'keymap-drawer/mona2_combos.yaml'"
       output_folder: "keymap-drawer"
       destination: "both"

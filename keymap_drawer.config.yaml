@@ -12,6 +12,7 @@ parse_config:
   # 見出しに押し方を書いたレイヤー（--layer-names で付けた名前）を、キーの上では短い名前に戻す
   layer_legend_map:
     "L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）": L4
+    "L5（左親指の「BSPC」を押したまま、右親指の「SPACE」を押す）": L5
     "BLE（右親指の「SPACE」を押したまま、左親指の「-」を押す）": BLE
   modifier_fn_map:
     left_ctrl: "⌃"
@@ -58,6 +59,20 @@ parse_config:
     "&kp DEL": Del
     "&kp LC(LS(TAB))": {t: 前の タブ, s: "⌃⇧Tab"}
     "&kp LC(TAB)": {t: 次の タブ, s: "⌃Tab"}
+    # L5: デスクトップ（Mac の「デスクトップ n へ切り替え」）と CleanShot X のスクショ
+    "&kp LC(N1)": {t: デスク 1, s: "⌃1"}
+    "&kp LC(N2)": {t: デスク 2, s: "⌃2"}
+    "&kp LC(N3)": {t: デスク 3, s: "⌃3"}
+    "&kp LC(N4)": {t: デスク 4, s: "⌃4"}
+    "&kp LC(N5)": {t: デスク 5, s: "⌃5"}
+    "&kp LC(N6)": {t: デスク 6, s: "⌃6"}
+    "&kp LC(N7)": {t: デスク 7, s: "⌃7"}
+    "&kp LC(N8)": {t: デスク 8, s: "⌃8"}
+    "&kp LC(N9)": {t: デスク 9, s: "⌃9"}
+    "&kp LS(LG(N4))": {t: 範囲 コピー, s: "⇧⌘4"}
+    "&kp LC(LG(N4))": {t: 範囲 保存, s: "⌃⌘4"}
+    "&kp LA(LG(N4))": {t: 文字 認識, s: "⌥⌘4"}
+    "&kp LS(LG(N5))": {t: 録画, s: "⇧⌘5"}
     # L4: Rectangle のウィンドウ操作（配置の正本は config/mona2.keymap の L4 のコメント）
     "&kp LC(LA(N1))": {t: 1/4 ①, s: "⌃⌥1"}
     "&kp LC(LA(N2))": {t: 1/4 ②, s: "⌃⌥2"}

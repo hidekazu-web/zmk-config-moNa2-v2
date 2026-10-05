@@ -169,7 +169,7 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - L5
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）:
@@ -215,7 +215,21 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  L5:
+  L5（左親指の「BSPC」を押したまま、右親指の「SPACE」を押す）:
+  - {t: デスク 1, s: ⌃1}
+  - {t: デスク 2, s: ⌃2}
+  - {t: デスク 3, s: ⌃3}
+  - {t: デスク 4, s: ⌃4}
+  - {t: デスク 5, s: ⌃5}
+  - {t: デスク 6, s: ⌃6}
+  - {t: デスク 7, s: ⌃7}
+  - {t: デスク 8, s: ⌃8}
+  - {t: デスク 9, s: ⌃9}
+  - {t: ▽, type: trans}
+  - {t: 範囲 コピー, s: ⇧⌘4}
+  - {t: 範囲 保存, s: ⌃⌘4}
+  - {t: 文字 認識, s: ⌥⌘4}
+  - {t: 録画, s: ⇧⌘5}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -238,24 +252,10 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   L6:
