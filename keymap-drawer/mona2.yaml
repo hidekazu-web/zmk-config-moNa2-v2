@@ -35,12 +35,12 @@ layers:
   - .
   - {t: /, h: ⇧}
   - {t: Esc, s: '`'}
-  - ⌥
   - Ctrl
-  - {t: BSPC, h: NAV}
+  - ⌥
+  - {t: BSPC, h: SYM}
   - {t: 英数, h: ⌘}
   - {t: '-', h: NUM}
-  - {t: SPACE, h: SYM}
+  - {t: SPACE, h: NAV}
   - {t: かな, h: ⌘}
   - ⌥.
   SYM:
@@ -80,10 +80,10 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - BLE
   - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - L5
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   NUM:
@@ -161,15 +161,15 @@ layers:
   - PgDn
   - {t: 前の タブ, s: ⌃⇧Tab}
   - {t: 次の タブ, s: ⌃Tab}
+  - {t: 閉じる, s: ⌘W}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - BLE
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - L5
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   L4（左親指の「-」を押したまま、右親指の「SPACE」を押す）:
@@ -185,12 +185,12 @@ layers:
   - {t: 右上 1/4, s: ⌃⌥I}
   - {t: 左3/4, s: ⌃⌥W}
   - {t: 左半分, s: ⌃⌥←}
-  - {t: 最大化, s: ⌃⌥⏎}
+  - {t: 中央 半分, s: ⌃⌥⇧C}
   - {t: 右半分, s: ⌃⌥→}
   - {t: 右3/4, s: ⌃⌥R}
   - {t: 上半分, s: ⌃⌥↑}
   - {t: 前の 画面, s: ⌃⌥⌘←}
-  - {t: ▽, type: trans}
+  - {t: 最大化, s: ⌃⌥⏎}
   - {t: 中央, s: ⌃⌥C}
   - {t: ▽, type: trans}
   - {t: 次の 画面, s: ⌃⌥⌘→}
