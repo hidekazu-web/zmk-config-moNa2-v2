@@ -128,7 +128,7 @@ layers:
   - {type: held}
   - L4
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ⌥
   NAV:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}

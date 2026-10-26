@@ -293,14 +293,15 @@
         };
 
         /* 数字。左親指の内側 (-) の長押し。左手がテンキー (最下段に 0 と .、Z の位置は Caps Lock)、右手が F1〜F15
-           Space の位置 (39 番) は L4 へ (左親指の内側を押したまま Space) */
+           Space の位置 (39 番) は L4 へ (左親指の内側を押したまま Space)
+           右手の右下 (41 番。BASE の ⌥.) は ⌥ だけ */
         num_layer {
             display-name = "NUM";
             bindings = <
 &kp MINUS  &kp N7  &kp N8  &kp N9  &kp PLUS  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15
 &kp SLASH  &kp N4  &kp N5  &kp N6  &kp STAR  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
 &kp CAPS  &kp N1  &kp N2  &kp N3  &kp EQUAL  &kp SLASH  &trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5
-&trans  &kp N0  &kp DOT  &trans  &trans  &trans  &mo 4  &trans  &trans
+&trans  &kp N0  &kp DOT  &trans  &trans  &trans  &mo 4  &trans  &kp LALT
             >;
 
             sensor-bindings = <&rsr_default>;
