@@ -70,13 +70,13 @@ layers:
   - '='
   - +
   - _
-  - {t: ▽, type: trans}
+  - '?'
   - 明るさ −
   - '-'
   - '['
   - ']'
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''''
+  - '"'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -160,8 +160,8 @@ layers:
   - Del
   - PgDn
   - {t: 前の タブ, s: ⌃⇧Tab}
-  - {t: 次の タブ, s: ⌃Tab}
   - {t: 閉じる, s: ⌘W}
+  - {t: 次の タブ, s: ⌃Tab}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}

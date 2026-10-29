@@ -279,13 +279,14 @@
         };
 
         /* 記号。左親指の外側 (Bksp) の長押し
+           下段: B の右=?  .=' /=" (2026-10-29 に追加)
            Space の位置 (39 番) は L5 へ (左親指の外側を押したまま Space) */
         sym_layer {
             display-name = "SYM";
             bindings = <
 &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT  &kp CARET  &kp AMPS  &kp STAR  &kp LPAR  &kp RPAR
 &kp GRAVE  &kp TILDE  &kp LBRC  &kp RBRC  &kp PIPE  &kp C_BRI_UP  &kp BSLH  &kp LPAR  &kp RPAR  &kp LBRC  &kp RBRC
-&kp LT  &kp GT  &kp EQUAL  &kp PLUS  &kp UNDER  &trans  &kp C_BRI_DN  &kp MINUS  &kp LBKT  &kp RBKT  &trans  &trans
+&kp LT  &kp GT  &kp EQUAL  &kp PLUS  &kp UNDER  &kp QMARK  &kp C_BRI_DN  &kp MINUS  &kp LBKT  &kp RBKT  &kp SQT  &kp DQT
 &trans  &trans  &trans  &trans  &trans  &trans  &mo 5  &trans  &trans
             >;
 
@@ -307,14 +308,14 @@
             sensor-bindings = <&rsr_default>;
         };
 
-        /* 移動。右親指 (Space) の長押し。右手が矢印・単語/行/ページ移動・タブ切替と閉じる (. の位置の ⌘W) (左手は空き)。つまみはなめらかなズーム
+        /* 移動。右親指 (Space) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (M=前・.=次) と閉じる (, の位置の ⌘W。2026-10-29 に . と入れ替え) (左手は空き)。つまみはなめらかなズーム
            左親指の内側 (38 番) は BLE へ (Space を押したまま左親指の内側) */
         nav_layer {
             display-name = "NAV";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &kp PG_UP  &kp LA(LEFT)  &kp UP  &kp LA(RIGHT)  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &kp LG(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(RIGHT)
-&trans  &trans  &trans  &trans  &trans  &trans  &kp DEL  &kp PG_DN  &kp LC(LS(TAB))  &kp LC(TAB)  &kp LG(W)  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &kp DEL  &kp PG_DN  &kp LC(LS(TAB))  &kp LG(W)  &kp LC(TAB)  &trans
 &trans  &trans  &trans  &trans  &trans  &mo 11  &trans  &trans  &trans
             >;
 
