@@ -18,6 +18,8 @@ manifest:
       url-base: https://github.com/kot149
     - name: shakushakupanda  # <-- mouse gesture RPC module
       url-base: https://github.com/shakushakupanda
+    - name: hidekazu-web  # <-- ZMK 本体のフォーク (Studio の送信の修正)
+      url-base: https://github.com/hidekazu-web
   projects:
     # ── ZMK 本体 ────────────────────────────────────────────────
     # DYA Studio の最新機能 (ランタイムマクロ / ランタイムコンボ) は
@@ -26,9 +28,12 @@ manifest:
     # cormoran/zmk-keyboard-dya2 v2.0 が実際に採用している構成。
     # ベースは ZMK v0.4 系 (Zephyr 4.1) で、旧 `v0.3-branch+dya` (Zephyr 3.5) から
     # メジャーバージョンが上がっている点に注意。
+    # hidekazu-web/zmk は cormoran/zmk のフォーク。下の revision は main+dya の e5c9b69
+    # (2026-10-01、shakupan e34be5e のビルド時点) に、Bluetooth の Studio 送信が
+    # 止まったままになる不具合の修正 1 件 (fix/studio-ble-tx-stall) を足したもの。
     - name: zmk
-      remote: cormoran
-      revision: e5c9b6915b56801193e359dd9bad4a167ce0d1b8  # main+dya @ 2026-10-01 (shakupan e34be5e のビルド時点)
+      remote: hidekazu-web
+      revision: 8b766b3f37e13704c4fc00d96246135a57fc043f
       import: app/west.yml
 
     # ── DYA Studio 共通基盤 ─────────────────────────────────────
