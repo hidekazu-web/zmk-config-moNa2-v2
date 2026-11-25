@@ -215,6 +215,15 @@
             ccw-binding = <&kp LG(PLUS)>;
         };
 
+        /* NUM 用の一段ずつのズーム。右に回すと ⌘= (Shift なし)、左に回すと ⌘−
+           (2026-11-25 に本体から読んで反映。それまでファイルはスクロールだった) */
+        rsr_num: rsr_num {
+            compatible = "zmk,behavior-runtime-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            tap-ms = <16>;
+            cw-binding = <&kp LG(MINUS)>;
+            ccw-binding = <&kp LG(EQUAL)>;
+        };
 
         tog_on: toggle_layer_on_only {
             compatible = "zmk,behavior-toggle-layer";
@@ -252,7 +261,7 @@
 
     /* ─────────────────────────────────────────────────────────────
        レイヤー構成 (番号 = DYA Studio の表示順)
-         0 BASE     1 SYM (Bksp長押し)  2 NUM (-親指長押し)  3 NAV (Space長押し)
+         0 BASE     1 SYM (Bksp長押し)  2 NUM (-親指長押し)  3 NAV (Space長押し。左手は NUM と同じテンキー)
          Space を押したまま左親指の内側 (NAV の 38 番) を押している間は 11 BLE
          左親指の内側を押したまま Space (NUM の 39 番) を押している間は 4 L4 (ウィンドウ)
          左親指の外側を押したまま Space (SYM の 39 番) を押している間は 5 L5 (デスクトップ・スクショ)
@@ -294,6 +303,7 @@
         };
 
         /* 数字。左親指の内側 (-) の長押し。左手がテンキー (最下段に 0 と .、Z の位置は Caps Lock)、右手が F1〜F15
+           つまみは一段ずつのズーム (⌘− / ⌘=)
            Space の位置 (39 番) は L4 へ (左親指の内側を押したまま Space)
            右手の右下 (41 番。BASE の ⌥.) は ⌥ だけ */
         num_layer {
@@ -305,18 +315,22 @@
 &trans  &kp N0  &kp DOT  &trans  &trans  &trans  &mo 4  &trans  &kp LALT
             >;
 
-            sensor-bindings = <&rsr_default>;
+            sensor-bindings = <&rsr_num>;
         };
 
-        /* 移動。右親指 (Space) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (M=前・.=次) と閉じる (, の位置の ⌘W。2026-10-29 に . と入れ替え) (左手は空き)。つまみはなめらかなズーム
+        /* 移動。右親指 (Space) の長押し。右手が矢印・単語/行/ページ移動・タブ切替 (M=前・.=次) と閉じる (, の位置の ⌘W。2026-10-29 に . と入れ替え)。つまみはなめらかなズーム
+           左手は NUM と同じテンキー (2026-11-08 に追加。数字を Space を押さえた反対の手で打つため)。
+           Z は &trans のまま (長押しの Shift を残し、Shift+矢印の範囲選択を使えるようにする)。
+           A は / (NUM と同じ。2026-11-25 に本体から読んで反映。それまでは &trans で長押しの Ctrl が効いた)。
+           X の下 (0)・C の下 (.) は BASE の Ctrl・⌥ に落ちなくなる
            左親指の内側 (38 番) は BLE へ (Space を押したまま左親指の内側) */
         nav_layer {
             display-name = "NAV";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &kp PG_UP  &kp LA(LEFT)  &kp UP  &kp LA(RIGHT)  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &kp LG(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(RIGHT)
-&trans  &trans  &trans  &trans  &trans  &trans  &kp DEL  &kp PG_DN  &kp LC(LS(TAB))  &kp LG(W)  &kp LC(TAB)  &trans
-&trans  &trans  &trans  &trans  &trans  &mo 11  &trans  &trans  &trans
+&kp MINUS  &kp N7  &kp N8  &kp N9  &kp PLUS  &kp PG_UP  &kp LA(LEFT)  &kp UP  &kp LA(RIGHT)  &trans
+&kp SLASH  &kp N4  &kp N5  &kp N6  &kp STAR  &trans  &kp LG(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(RIGHT)
+&trans  &kp N1  &kp N2  &kp N3  &kp EQUAL  &kp SLASH  &kp DEL  &kp PG_DN  &kp LC(LS(TAB))  &kp LG(W)  &kp LC(TAB)  &trans
+&trans  &kp N0  &kp DOT  &trans  &trans  &mo 11  &trans  &trans  &trans
             >;
 
             sensor-bindings = <&rsr_nav>;
@@ -325,13 +339,14 @@
         /* ウィンドウ操作 (Rectangle の既存ショートカットを送る)。左手は幅、右手は上下の位置と画面移動
              上段 Q〜R: 1/4 の①〜④      Y/P: 左上・右上 1/4   U/I/O: 上段 1/6 の左・中・右
              中段 A/G: 左・右 3/4  S/F: 左・右半分  D: 中央に半分の幅 (⌃⌥⇧C)   H/⏎位置: 前・次の画面  J: 最大化  K: 中央
+                  L: 元の大きさに戻す (⌃⌥⌫。Rectangle の初期設定のショートカット。2026-11-25 に本体から読んで反映)
              下段 Z/B: 左・右 2/3  X/C/V: 1/3 の左・中・右     N//: 左下・右下 1/4   M/,/.: 下段 1/6
              右手内側の上下 2 キー (15/27): 上半分・下半分。つまみは一段ずつのズーム (⌘− / ⌘+) */
         spare4_layer {
             display-name = "L4";
             bindings = <
 &kp LC(LA(N1))  &kp LC(LA(N2))  &kp LC(LA(N3))  &kp LC(LA(N4))  &trans  &kp LC(LA(U))  &kp LC(LA(O))  &kp LC(LA(P))  &kp LC(LA(LBKT))  &kp LC(LA(I))
-&kp LC(LA(W))  &kp LC(LA(LEFT))  &kp LC(LA(LS(C)))  &kp LC(LA(RIGHT))  &kp LC(LA(R))  &kp LC(LA(UP))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(ENTER))  &kp LC(LA(C))  &trans  &kp LC(LA(LG(RIGHT)))
+&kp LC(LA(W))  &kp LC(LA(LEFT))  &kp LC(LA(LS(C)))  &kp LC(LA(RIGHT))  &kp LC(LA(R))  &kp LC(LA(UP))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(ENTER))  &kp LC(LA(C))  &kp LC(LA(BSPC))  &kp LC(LA(LG(RIGHT)))
 &kp LC(LA(E))  &kp LC(LA(D))  &kp LC(LA(F))  &kp LC(LA(G))  &kp LC(LA(T))  &trans  &kp LC(LA(DOWN))  &kp LC(LA(J))  &kp LC(LA(L))  &kp LC(LA(SEMI))  &kp LC(LA(SQT))  &kp LC(LA(K))
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
@@ -422,14 +437,17 @@
         /* Bluetooth。Space を押したまま左親指の内側で入る
              右手 上段 Y〜P: BT_SEL 0〜4 (0=Mac, 1=iPad)   中段 H〜⏎位置: BT_DISC 0〜4 (選ぶキーの真下で切断)
              右手 /: BT_CLR (今の番号だけ消す)   H の左: OUT_TOG   N の左: 右手の bootloader
-             左手 Q: BT_CLR_ALL   T: studio_unlock   B の右: 左手の bootloader (押した側の半分が書き込みモード) */
+             左手 Q: BT_CLR_ALL   T: studio_unlock   Z の下: 左手の bootloader (押した側の半分が書き込みモード)
+             左手の bootloader (旧 B の右) は 2026-11-08 に移動。
+             BT_CLR_ALL は 2026-11-08 に右下の角へ移したが、本人が Q に戻した (2026-11-25 に本体から読んで反映。
+             BLE は Space と左親指の内側の両方を押さないと入らないので、数字を打つときに押す心配はない・本人) */
         ble_layer {
             display-name = "BLE";
             bindings = <
 &bt BT_CLR_ALL  &trans  &trans  &trans  &studio_unlock  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
 &trans  &trans  &trans  &trans  &trans  &out OUT_TOG  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4
-&trans  &trans  &trans  &trans  &trans  &bootloader  &bootloader  &trans  &trans  &trans  &trans  &bt BT_CLR
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &bootloader  &trans  &trans  &trans  &trans  &bt BT_CLR
+&bootloader  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
             sensor-bindings = <&rsr_default>;

@@ -30,7 +30,9 @@
   マウスジェスチャー
   studio_rpc.py gestures / gesture-delete <id>
 
-DYA Studio / Mouse Gesture Studio がポートを開いている間は使えない。
+DYA Studio / Mouse Gesture Studio / moNa Overlay がポートを開いている間は使えない。
+moNa Overlay は終了せず、/Applications/MonaOverlay.app/Contents/MacOS/MonaOverlay --connection-status で状態を見て、
+つながっていたら --disconnect で切り、終わったら --connect で戻す（はじめから切ってあったら戻さない）。
 キー配置とコンボを変えたら、config/mona2.keymap も本体に合わせておく。
 """
 import glob

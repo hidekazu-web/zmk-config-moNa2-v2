@@ -130,21 +130,21 @@ layers:
   - {t: ▽, type: trans}
   - ⌥
   NAV:
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - '-'
+  - '7'
+  - '8'
+  - '9'
+  - +
   - PgUp
   - {t: 単語←, s: ⌥←}
   - ↑
   - {t: 単語→, s: ⌥→}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - /
+  - '4'
+  - '5'
+  - '6'
+  - '*'
   - {t: ▽, type: trans}
   - {t: 行頭, s: ⌘←}
   - ←
@@ -152,11 +152,11 @@ layers:
   - →
   - {t: 行末, s: ⌘→}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - '1'
+  - '2'
+  - '3'
+  - '='
+  - /
   - Del
   - PgDn
   - {t: 前の タブ, s: ⌃⇧Tab}
@@ -164,8 +164,8 @@ layers:
   - {t: 次の タブ, s: ⌃Tab}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - '0'
+  - .
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - BLE
@@ -192,7 +192,7 @@ layers:
   - {t: 前の 画面, s: ⌃⌥⌘←}
   - {t: 最大化, s: ⌃⌥⏎}
   - {t: 中央, s: ⌃⌥C}
-  - {t: ▽, type: trans}
+  - {t: 元に 戻す, s: ⌃⌥⌫}
   - {t: 次の 画面, s: ⌃⌥⌘→}
   - {t: 左2/3, s: ⌃⌥E}
   - {t: 1/3 左, s: ⌃⌥D}
@@ -500,14 +500,14 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - 書込み モード
+  - {t: ▽, type: trans}
   - 書込み モード
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: 登録消去, s: この番号}
-  - {t: ▽, type: trans}
+  - 書込み モード
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
